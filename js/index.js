@@ -1,20 +1,4 @@
 // Mock Data Fallbacks for Local Testing / Empty Database
-const MOCK_EXPERIENCES = [
-    {
-        id: 1,
-        duration: "2024 - Present",
-        role: "Frontend Developer & UI/UX Designer",
-        company_name: "Tech Solutions Co., Ltd.",
-        description: "ออกแบบและพัฒนาเว็บไซต์หลักและเว็บแอปพลิเคชันสำหรับลูกค้าองค์กรขนาดใหญ่ โดยใช้ React, Next.js และ Tailwind CSS ปรับปรุงความเร็วในการโหลดหน้าเว็บเพิ่มขึ้น 40%"
-    },
-    {
-        id: 2,
-        duration: "2022 - 2024",
-        role: "Junior Frontend Developer",
-        company_name: "Creative Web Studio",
-        description: "พัฒนาเว็บแอปพลิเคชันแบบ responsive ด้วย HTML, CSS, JavaScript และ Vue.js ร่วมมืออย่างใกล้ชิดกับทีมดีไซเนอร์ในการแปลง Figma Mockups เป็นโค้ดที่พร้อมใช้งานจริง"
-    }
-];
 
 const MOCK_PROJECTS = [
     {
