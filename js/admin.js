@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
 
             const data = {
+                id: Date.now(),
                 title: document.getElementById('title').value,
                 role: document.getElementById('role').value,
                 type: document.getElementById('type').value,
