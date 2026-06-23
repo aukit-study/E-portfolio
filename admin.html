@@ -41,10 +41,8 @@
                     <select id="type"
                         class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white focus:outline-black">
                         <option>Production Project</option>
-                        <option>Competition Project</option>
                         <option>Academic Project</option>
                         <option>Personal Project</option>
-                        <option>Open Source / Contributions</option>
                     </select>
                 </div>
             </div>
@@ -95,6 +93,50 @@
             <button type="submit"
                 class="w-full bg-black text-white text-sm font-medium py-2.5 rounded hover:bg-gray-800 transition-colors">
                 💾 บันทึกข้อมูลลงฐานข้อมูล
+            </button>
+        </form>
+
+        <div class="flex items-center justify-between mb-6 mt-12 pt-8 border-t border-gray-200">
+            <h2 class="text-xl font-semibold text-gray-900">🎤 เพิ่มกิจกรรม / เกียรติบัตร (Activities)</h2>
+        </div>
+
+        <form id="activity-form" class="space-y-4">
+            <div>
+                <label class="block text-xs font-medium text-gray-500 uppercase mb-1">ชื่อกิจกรรม / เกียรติบัตร</label>
+                <input type="text" id="act_title" required
+                    class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-black">
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 uppercase mb-1">หมวดหมู่</label>
+                    <select id="act_role"
+                        class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white focus:outline-black">
+                        <option value="Workshops & Events">Workshops & Events</option>
+                        <option value="Certifications">Certifications</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 uppercase mb-1">URL รูปภาพ (ถ้ามี)</label>
+                    <input type="url" id="act_image_url"
+                        class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-black">
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-gray-500 uppercase mb-1">รายละเอียด</label>
+                <textarea id="act_description" rows="2"
+                    class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-black"></textarea>
+            </div>
+
+            <div class="flex gap-6 py-2">
+                <label class="flex items-center gap-2 text-sm text-gray-600">
+                    <input type="checkbox" id="act_is_visible" checked class="rounded border-gray-300"> เปิดแสดงผลหน้าบ้าน
+                    (Show)
+                </label>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-black text-white text-sm font-medium py-2.5 rounded hover:bg-gray-800 transition-colors">
+                💾 บันทึกกิจกรรมลงฐานข้อมูล
             </button>
         </form>
     </div>

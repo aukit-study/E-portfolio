@@ -1,68 +1,4 @@
-// Mock Data Fallbacks for Local Testing / Empty Database
-const MOCK_EXPERIENCES = [
-    {
-        id: 1,
-        duration: "2024 - Present",
-        role: "Frontend Developer & UI/UX Designer",
-        company_name: "Tech Solutions Co., Ltd.",
-        description: "ออกแบบและพัฒนาเว็บไซต์หลักและเว็บแอปพลิเคชันสำหรับลูกค้าองค์กรขนาดใหญ่ โดยใช้ React, Next.js และ Tailwind CSS ปรับปรุงความเร็วในการโหลดหน้าเว็บเพิ่มขึ้น 40%"
-    },
-    {
-        id: 2,
-        duration: "2022 - 2024",
-        role: "Junior Frontend Developer",
-        company_name: "Creative Web Studio",
-        description: "พัฒนาเว็บแอปพลิเคชันแบบ responsive ด้วย HTML, CSS, JavaScript และ Vue.js ร่วมมืออย่างใกล้ชิดกับทีมดีไซเนอร์ในการแปลง Figma Mockups เป็นโค้ดที่พร้อมใช้งานจริง"
-    }
-];
-
-const MOCK_PROJECTS = [
-    {
-        id: 1,
-        title: "E-Commerce Web Portal",
-        role: "Lead Frontend Developer",
-        type: "Production Project",
-        description: "แพลตฟอร์มซื้อขายสินค้าออนไลน์ครบวงจร มีหน้าแดชบอร์ดจัดการสต็อกสินค้า ระบบการชำระเงิน และระบบการแจ้งเตือนแบบเรียลไทม์",
-        target_audience: "ร้านค้าออนไลน์ทั่วไป",
-        problem_solved: "ช่วยลดระยะเวลาขั้นตอนการสั่งซื้อสินค้าให้รวดเร็วขึ้น",
-        what_i_learned: "การบริหารจัดการ State และประสิทธิภาพการเรนเดอร์ React",
-        tech_stack: "Next.js, Tailwind CSS, Redux, Node.js",
-        github_url: "https://github.com",
-        is_visible: true
-    },
-    {
-        id: 2,
-        title: "Personal Portfolio & Blog",
-        role: "Full Stack Developer",
-        type: "Personal Project",
-        description: "เว็บไซต์พอร์ตโฟลิโอส่วนตัวและเว็บบล็อกเพื่อบันทึกการเรียนรู้ เขียนด้วย React และขับเคลื่อนด้วยระบบคลาวด์จาก Supabase",
-        target_audience: "ผู้ที่สนใจเยี่ยมชมผลงานและอ่านบทความไอที",
-        problem_solved: "เพิ่มช่องทางนำเสนอตัวตนและทักษะออนไลน์ได้ง่าย",
-        what_i_learned: "การตั้งค่าและการเขียนนโยบายความปลอดภัย RLS บน Supabase",
-        tech_stack: "React, Supabase REST API, CSS Grid, Tailwind CSS",
-        github_url: "https://github.com",
-        is_visible: true
-    }
-];
-
-const MOCK_ACTIVITIES = [
-    {
-        id: 1,
-        title: "Responsive Web Design Certification",
-        role: "Certifications",
-        description: "freeCodeCamp - หลักสูตรทักษะการออกแบบเว็บแบบตอบสนองต่อผู้ใช้งานทุกอุปกรณ์",
-        image_url: "",
-        is_visible: true
-    },
-    {
-        id: 2,
-        title: "Super AI Engineer Workshop",
-        role: "Workshops & Events",
-        description: "สมาคมปัญญาประดิษฐ์ประเทศไทย (AIAT) - งานฝึกอบรมพัฒนาทักษะวิศวกรรมปัญญาประดิษฐ์",
-        image_url: "",
-        is_visible: true
-    }
-];
+// Real data only
 
 // App State
 let allProjects = [];
@@ -83,7 +19,7 @@ function renderCombinedContent() {
     if (showExperience && allExperiences.length > 0) {
         const expSection = document.createElement('div');
         expSection.className = "mb-10 transform opacity-0 scale-95 transition-all duration-300 ease-out";
-        
+
         let timelineHTML = `
             <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-6">Work Experience</h3>
             <div class="space-y-6 border-l-2 border-gray-200 pl-4 ml-2">
@@ -114,8 +50,8 @@ function renderCombinedContent() {
 
     // 2. Render Projects
     if (showProjects) {
-        const filteredProjects = activeCategory === 'All' 
-            ? allProjects 
+        const filteredProjects = activeCategory === 'All'
+            ? allProjects
             : allProjects.filter(p => p.type === activeCategory);
 
         if (filteredProjects.length > 0) {
@@ -133,26 +69,46 @@ function renderCombinedContent() {
                 const tagsHTML = tags.map(tag => `<span class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded">${tag}</span>`).join(' ');
 
                 const card = document.createElement('div');
-                card.className = "bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6 transform opacity-0 scale-95 transition-all duration-300 ease-out";
+                card.className = "bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6 transform opacity-0 scale-95 transition-all duration-300 ease-out cursor-pointer hover:border-gray-300 hover:shadow-md group";
+                
+                card.onclick = (e) => {
+                    if(e.target.closest('a')) return; // Don't trigger if clicking a link
+                    const details = card.querySelector('.project-details');
+                    const chevron = card.querySelector('.chevron-icon');
+                    details.classList.toggle('hidden');
+                    if (details.classList.contains('hidden')) {
+                        chevron.classList.remove('rotate-180');
+                    } else {
+                        chevron.classList.add('rotate-180');
+                    }
+                };
+
                 card.innerHTML = `
                     <div class="flex flex-wrap items-start justify-between gap-2 mb-3">
                         <div>
-                            <h3 class="text-lg font-medium text-gray-900">${project.title}</h3>
+                            <h3 class="text-lg font-medium text-gray-900 group-hover:text-gray-600 transition-colors flex items-center gap-2">
+                                ${project.title}
+                                <svg class="chevron-icon w-4 h-4 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </h3>
                             <p class="text-xs text-gray-400 mt-0.5">Role: ${project.role}</p>
                         </div>
-                        <span class="bg-gray-900 text-white text-xs px-2.5 py-1 rounded-full font-medium">${project.type}</span>
+                        <span class="bg-gray-900 text-white text-xs px-2.5 py-1 rounded-full font-medium shrink-0">${project.type}</span>
                     </div>
-                    <p class="text-sm text-gray-600 mb-4">${project.description}</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-gray-50 p-3 rounded-lg text-xs text-gray-500 mb-4">
-                        <div><strong>🎯 กลุ่มเป้าหมาย:</strong> ${project.target_audience}</div>
-                        <div><strong>⚠️ ปัญหาที่แก้ไข:</strong> ${project.problem_solved}</div>
+                    <p class="text-sm text-gray-600 mb-2">${project.description}</p>
+                    
+                    <div class="project-details hidden mt-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-gray-50 p-3 rounded-lg text-xs text-gray-500 mb-4">
+                            <div><strong>🎯 กลุ่มเป้าหมาย:</strong> ${project.target_audience}</div>
+                            <div><strong>⚠️ ปัญหาที่แก้ไข:</strong> ${project.problem_solved}</div>
+                        </div>
+                        <div class="text-xs text-gray-600 border-l-2 border-gray-300 pl-3 my-3 italic">
+                            <strong>สิ่งที่ได้เรียนรู้:</strong> ${project.what_i_learned}
+                        </div>
                     </div>
-                    <div class="text-xs text-gray-600 border-l-2 border-gray-300 pl-3 my-3 italic">
-                        <strong>สิ่งที่ได้เรียนรู้:</strong> ${project.what_i_learned}
-                    </div>
-                    <div class="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-gray-100">
+                    
+                    <div class="flex flex-wrap items-center justify-between gap-4 pt-3 mt-1 border-t border-gray-100">
                         <div class="flex flex-wrap gap-1">${tagsHTML}</div>
-                        ${project.github_url ? `<a href="${project.github_url}" target="_blank" class="text-xs text-gray-900 font-medium hover:underline">🔗 View GitHub →</a>` : ''}
+                        ${project.github_url ? `<a href="${project.github_url}" target="_blank" class="text-xs text-gray-900 font-medium hover:underline z-10">🔗 View GitHub →</a>` : ''}
                     </div>
                 `;
                 container.appendChild(card);
@@ -183,26 +139,24 @@ function renderCategoryFilters() {
         'All',
         'Work Experience',
         'Production Project',
-        'Competition Project',
         'Academic Project',
-        'Personal Project',
-        'Open Source / Contributions'
+        'Personal Project'
     ];
 
     filterContainer.innerHTML = '';
     categories.forEach(cat => {
         const btn = document.createElement('button');
         btn.type = 'button';
-        
+
         let label = cat;
         if (cat === 'All') label = 'ทั้งหมด';
         else if (cat === 'Work Experience') label = 'Work Experience';
 
         btn.textContent = label;
-        
+
         // Base button style
         const baseStyle = "px-3 py-1.5 text-xs font-medium rounded-full transition-all duration-200 cursor-pointer focus:outline-none";
-        
+
         if (cat === activeCategory) {
             btn.className = `${baseStyle} bg-black text-white shadow-sm`;
         } else {
@@ -250,10 +204,17 @@ function renderSelfDevelopment(activities) {
         items.forEach((item, index) => {
             const card = document.createElement('div');
             card.className = "bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex gap-4 items-start transform opacity-0 scale-95 transition-all duration-300 ease-out";
-            
+
             let imgHTML = '';
             if (item.image_url) {
-                imgHTML = `<img src="${item.image_url}" alt="${item.title}" class="w-12 h-12 rounded object-cover border border-gray-100 shrink-0" />`;
+                imgHTML = `
+                    <div class="relative group cursor-pointer shrink-0" onclick="openImageModal('${item.image_url}')">
+                        <img src="${item.image_url}" alt="${item.title}" class="w-12 h-12 rounded object-cover border border-gray-100 transition-opacity group-hover:opacity-75" />
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20 rounded">
+                            <span class="text-white text-xs">🔍</span>
+                        </div>
+                    </div>
+                `;
             } else {
                 // Default icon based on type
                 const isCert = container === certsContainer;
@@ -285,72 +246,72 @@ function renderSelfDevelopment(activities) {
     renderList(workshops, workshopsContainer, 'ยังไม่มีข้อมูลการอบรมและสัมมนา');
 }
 
-// Fetch Work Experiences from Supabase (or Fallback to Mock)
+// Fetch Work Experiences from Supabase
 async function fetchExperiences() {
     try {
         const response = await fetch(`${SUPABASE_URL}/rest/v1/experiences?is_visible=eq.true&order=id.desc`, {
-            headers: { 
-                "apikey": SUPABASE_KEY, 
-                "Authorization": `Bearer ${SUPABASE_KEY}` 
+            headers: {
+                "apikey": SUPABASE_KEY,
+                "Authorization": `Bearer ${SUPABASE_KEY}`
             }
         });
         const experiences = await response.json();
 
-        if (response.ok && Array.isArray(experiences) && experiences.length > 0) {
+        if (response.ok && Array.isArray(experiences)) {
             allExperiences = experiences;
         } else {
-            console.log("Using mock experience data");
-            allExperiences = MOCK_EXPERIENCES;
+            console.error("Failed to fetch experiences from Supabase");
+            allExperiences = [];
         }
-    } catch (e) { 
-        console.error("Error fetching experiences, using fallback:", e); 
-        allExperiences = MOCK_EXPERIENCES;
+    } catch (e) {
+        console.error("Error fetching experiences:", e);
+        allExperiences = [];
     }
 }
 
-// Fetch Projects from Supabase (or Fallback to Mock)
+// Fetch Projects from Supabase
 async function fetchProjects() {
     try {
         const response = await fetch(`${SUPABASE_URL}/rest/v1/projects?is_visible=eq.true&order=id.desc`, {
-            headers: { 
-                "apikey": SUPABASE_KEY, 
-                "Authorization": `Bearer ${SUPABASE_KEY}` 
+            headers: {
+                "apikey": SUPABASE_KEY,
+                "Authorization": `Bearer ${SUPABASE_KEY}`
             }
         });
         const projects = await response.json();
 
-        if (response.ok && Array.isArray(projects) && projects.length > 0) {
+        if (response.ok && Array.isArray(projects)) {
             allProjects = projects;
         } else {
-            console.log("Using mock projects data");
-            allProjects = MOCK_PROJECTS;
+            console.error("Failed to fetch projects from Supabase");
+            allProjects = [];
         }
     } catch (error) {
-        console.error("Error fetching projects, using fallback:", error);
-        allProjects = MOCK_PROJECTS;
+        console.error("Error fetching projects:", error);
+        allProjects = [];
     }
 }
 
-// Fetch Self-Development Activities from Supabase (or Fallback to Mock)
+// Fetch Self-Development Activities from Supabase
 async function fetchSelfDevelopment() {
     try {
         const response = await fetch(`${SUPABASE_URL}/rest/v1/activities?is_visible=eq.true&order=id.desc`, {
-            headers: { 
-                "apikey": SUPABASE_KEY, 
-                "Authorization": `Bearer ${SUPABASE_KEY}` 
+            headers: {
+                "apikey": SUPABASE_KEY,
+                "Authorization": `Bearer ${SUPABASE_KEY}`
             }
         });
         const activities = await response.json();
 
-        if (response.ok && Array.isArray(activities) && activities.length > 0) {
+        if (response.ok && Array.isArray(activities)) {
             renderSelfDevelopment(activities);
         } else {
-            console.log("Using mock activities data");
-            renderSelfDevelopment(MOCK_ACTIVITIES);
+            console.error("Failed to fetch activities from Supabase");
+            renderSelfDevelopment([]);
         }
     } catch (error) {
-        console.error("Error fetching activities, using fallback:", error);
-        renderSelfDevelopment(MOCK_ACTIVITIES);
+        console.error("Error fetching activities:", error);
+        renderSelfDevelopment([]);
     }
 }
 
@@ -358,11 +319,46 @@ async function fetchSelfDevelopment() {
 document.addEventListener('DOMContentLoaded', async () => {
     // Await core portfolio data
     await Promise.all([fetchExperiences(), fetchProjects()]);
-    
+
     // Render core portfolio section
     renderCategoryFilters();
     renderCombinedContent();
 
     // Fetch and render self-development section
     fetchSelfDevelopment();
+});
+
+// Image Modal Functions
+function openImageModal(url) {
+    const modal = document.getElementById('image-modal');
+    const modalImg = document.getElementById('modal-image');
+    if (!modal || !modalImg) return;
+    
+    modalImg.src = url;
+    modal.classList.remove('hidden');
+    // small delay for transition to work
+    setTimeout(() => modal.classList.remove('opacity-0'), 10);
+}
+
+function closeImageModal() {
+    const modal = document.getElementById('image-modal');
+    if (!modal) return;
+    
+    modal.classList.add('opacity-0');
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        document.getElementById('modal-image').src = '';
+    }, 300); // match transition duration
+}
+
+// Close modal on click outside
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('image-modal');
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeImageModal();
+            }
+        });
+    }
 });
