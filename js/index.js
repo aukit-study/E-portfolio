@@ -1,4 +1,56 @@
+<<<<<<< HEAD
 // Real data only
+=======
+// Mock Data Fallbacks for Local Testing / Empty Database
+
+const MOCK_PROJECTS = [
+    {
+        id: 1,
+        title: "E-Commerce Web Portal",
+        role: "Lead Frontend Developer",
+        type: "Production Project",
+        description: "แพลตฟอร์มซื้อขายสินค้าออนไลน์ครบวงจร มีหน้าแดชบอร์ดจัดการสต็อกสินค้า ระบบการชำระเงิน และระบบการแจ้งเตือนแบบเรียลไทม์",
+        target_audience: "ร้านค้าออนไลน์ทั่วไป",
+        problem_solved: "ช่วยลดระยะเวลาขั้นตอนการสั่งซื้อสินค้าให้รวดเร็วขึ้น",
+        what_i_learned: "การบริหารจัดการ State และประสิทธิภาพการเรนเดอร์ React",
+        tech_stack: "Next.js, Tailwind CSS, Redux, Node.js",
+        github_url: "https://github.com",
+        is_visible: true
+    },
+    {
+        id: 2,
+        title: "Personal Portfolio & Blog",
+        role: "Full Stack Developer",
+        type: "Personal Project",
+        description: "เว็บไซต์พอร์ตโฟลิโอส่วนตัวและเว็บบล็อกเพื่อบันทึกการเรียนรู้ เขียนด้วย React และขับเคลื่อนด้วยระบบคลาวด์จาก Supabase",
+        target_audience: "ผู้ที่สนใจเยี่ยมชมผลงานและอ่านบทความไอที",
+        problem_solved: "เพิ่มช่องทางนำเสนอตัวตนและทักษะออนไลน์ได้ง่าย",
+        what_i_learned: "การตั้งค่าและการเขียนนโยบายความปลอดภัย RLS บน Supabase",
+        tech_stack: "React, Supabase REST API, CSS Grid, Tailwind CSS",
+        github_url: "https://github.com",
+        is_visible: true
+    }
+];
+
+const MOCK_ACTIVITIES = [
+    {
+        id: 1,
+        title: "Responsive Web Design Certification",
+        role: "Certifications",
+        description: "freeCodeCamp - หลักสูตรทักษะการออกแบบเว็บแบบตอบสนองต่อผู้ใช้งานทุกอุปกรณ์",
+        image_url: "",
+        is_visible: true
+    },
+    {
+        id: 2,
+        title: "Super AI Engineer Workshop",
+        role: "Workshops & Events",
+        description: "สมาคมปัญญาประดิษฐ์ประเทศไทย (AIAT) - งานฝึกอบรมพัฒนาทักษะวิศวกรรมปัญญาประดิษฐ์",
+        image_url: "",
+        is_visible: true
+    }
+];
+>>>>>>> 0194db7e06dca51e51e3df41a063a13e993ff499
 
 // App State
 let allProjects = [];
