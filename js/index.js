@@ -224,45 +224,53 @@ function renderSelfDevelopment(activities) {
         return card;
     }
 
-    function buildCell(item, type, label) {
-        const cell = document.createElement('div');
-        cell.className = 'dev-cell';
-
-        if (!item) {
-            cell.innerHTML = '<div class="dev-card dev-card-empty glass-card-inner p-4" aria-hidden="true">&nbsp;</div>';
-            return cell;
-        }
-
-        const labelEl = document.createElement('span');
-        labelEl.className = 'dev-mobile-label';
-        labelEl.textContent = label;
-
-        const card = buildCard(item, type);
-        cell.appendChild(labelEl);
-        cell.appendChild(card);
-        return cell;
-    }
-
-    const rowCount = Math.max(certs.length, workshops.length);
     const gridWrap = document.createElement('div');
-    gridWrap.className = 'dev-grid';
+    gridWrap.className = 'grid grid-cols-1 md:grid-cols-2 gap-8';
 
-    for (let i = 0; i < rowCount; i++) {
-        const row = document.createElement('div');
-        row.className = 'dev-row';
-        row.appendChild(buildCell(certs[i], 'cert', '🏆 Certifications'));
-        row.appendChild(buildCell(workshops[i], 'workshop', '🎤 Workshops & Events'));
-        gridWrap.appendChild(row);
+    // Certifications Column
+    const certCol = document.createElement('div');
+    certCol.className = 'flex flex-col gap-3';
+    
+    if (certs.length > 0) {
+        // Mobile Header
+        const certHeader = document.createElement('h3');
+        certHeader.className = 'md:hidden text-sm font-semibold text-gray-900 flex items-center gap-2 mb-2 mt-2';
+        certHeader.innerHTML = '🏆 Certifications';
+        certCol.appendChild(certHeader);
 
-        const cards = row.querySelectorAll('.dev-card:not(.dev-card-empty)');
-        setTimeout(() => {
-            cards.forEach((card) => {
+        certs.forEach((cert, i) => {
+            const card = buildCard(cert, 'cert');
+            certCol.appendChild(card);
+            setTimeout(() => {
                 card.classList.remove('opacity-0', 'scale-95');
                 card.classList.add('opacity-100', 'scale-100');
-            });
-        }, i * 60);
+            }, i * 60);
+        });
     }
 
+    // Workshops Column
+    const workshopCol = document.createElement('div');
+    workshopCol.className = 'flex flex-col gap-3';
+    
+    if (workshops.length > 0) {
+        // Mobile Header
+        const workshopHeader = document.createElement('h3');
+        workshopHeader.className = 'md:hidden text-sm font-semibold text-gray-900 flex items-center gap-2 mb-2 mt-4';
+        workshopHeader.innerHTML = '🎤 Workshops & Events';
+        workshopCol.appendChild(workshopHeader);
+
+        workshops.forEach((workshop, i) => {
+            const card = buildCard(workshop, 'workshop');
+            workshopCol.appendChild(card);
+            setTimeout(() => {
+                card.classList.remove('opacity-0', 'scale-95');
+                card.classList.add('opacity-100', 'scale-100');
+            }, i * 60);
+        });
+    }
+
+    gridWrap.appendChild(certCol);
+    gridWrap.appendChild(workshopCol);
     grid.appendChild(gridWrap);
 }
 
