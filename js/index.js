@@ -19,16 +19,16 @@ function renderCombinedContent() {
 
         let timelineHTML = `
             <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-6">Work Experience</h3>
-            <div class="space-y-6 border-l-2 border-gray-200 pl-4 ml-2">
+            <div class="space-y-6 border-l-2 border-indigo-200 pl-5 ml-2">
         `;
         allExperiences.forEach(exp => {
             timelineHTML += `
                 <div class="relative">
-                    <div class="absolute -left-[23px] top-1.5 w-3 h-3 rounded-full bg-gray-400 border-2 border-white"></div>
-                    <div>
+                    <div class="absolute -left-[26px] top-1.5 w-3.5 h-3.5 rounded-full bg-indigo-400 border-2 border-white shadow-sm"></div>
+                    <div class="glass-card-inner p-4">
                         <span class="text-xs text-gray-400 font-medium">${exp.duration}</span>
-                        <h4 class="text-base font-medium text-gray-900 mt-0.5">${exp.role}</h4>
-                        <p class="text-xs text-gray-500 font-medium">${exp.company_name}</p>
+                        <h4 class="text-base font-semibold text-gray-900 mt-0.5">${exp.role}</h4>
+                        <p class="text-xs text-indigo-500 font-medium">${exp.company_name}</p>
                         <p class="text-sm text-gray-600 mt-2 leading-relaxed">${exp.description}</p>
                     </div>
                 </div>
@@ -63,10 +63,10 @@ function renderCombinedContent() {
 
             filteredProjects.forEach((project, index) => {
                 const tags = project.tech_stack ? project.tech_stack.split(',').map(t => t.trim()) : [];
-                const tagsHTML = tags.map(tag => `<span class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded">${tag}</span>`).join(' ');
+                const tagsHTML = tags.map(tag => `<span class="skill-tag">${tag}</span>`).join(' ');
 
                 const card = document.createElement('div');
-                card.className = "bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6 transform opacity-0 scale-95 transition-all duration-300 ease-out cursor-pointer hover:border-gray-300 hover:shadow-md group";
+                card.className = "glass-card-inner p-5 mb-2 transform opacity-0 scale-95 transition-all duration-300 ease-out cursor-pointer group";
                 
                 card.onclick = (e) => {
                     if(e.target.closest('a')) return; // Don't trigger if clicking a link
@@ -94,11 +94,11 @@ function renderCombinedContent() {
                     <p class="text-sm text-gray-600 mb-2">${project.description}</p>
                     
                     <div class="project-details hidden mt-4">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-gray-50 p-3 rounded-lg text-xs text-gray-500 mb-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-white/60 border border-gray-200/60 p-3 rounded-xl text-xs text-gray-500 mb-4">
                             <div><strong>🎯 กลุ่มเป้าหมาย:</strong> ${project.target_audience}</div>
                             <div><strong>⚠️ ปัญหาที่แก้ไข:</strong> ${project.problem_solved}</div>
                         </div>
-                        <div class="text-xs text-gray-600 border-l-2 border-gray-300 pl-3 my-3 italic">
+                        <div class="text-xs text-gray-600 border-l-2 border-indigo-300 pl-3 my-3 italic">
                             <strong>สิ่งที่ได้เรียนรู้:</strong> ${project.what_i_learned}
                         </div>
                     </div>
@@ -152,12 +152,12 @@ function renderCategoryFilters() {
         btn.textContent = label;
 
         // Base button style
-        const baseStyle = "px-3 py-1.5 text-xs font-medium rounded-full transition-all duration-200 cursor-pointer focus:outline-none";
+        const baseStyle = "filter-btn";
 
         if (cat === activeCategory) {
-            btn.className = `${baseStyle} bg-black text-white shadow-sm`;
+            btn.className = `${baseStyle} filter-btn-active`;
         } else {
-            btn.className = `${baseStyle} bg-gray-100 text-gray-600 hover:bg-gray-200`;
+            btn.className = baseStyle;
         }
 
         btn.addEventListener('click', () => {
@@ -200,7 +200,7 @@ function renderSelfDevelopment(activities) {
 
         items.forEach((item, index) => {
             const card = document.createElement('div');
-            card.className = "bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex gap-4 items-start transform opacity-0 scale-95 transition-all duration-300 ease-out";
+            card.className = "glass-card-inner p-4 flex gap-4 items-start transform opacity-0 scale-95 transition-all duration-300 ease-out";
 
             let imgHTML = '';
             if (item.image_url) {
