@@ -172,15 +172,11 @@ function renderCategoryFilters() {
 
 // Render self-development section (Certifications, Workshops & Events)
 function renderSelfDevelopment(activities) {
-    const certsContainer = document.getElementById('certifications-container');
-    const workshopsContainer = document.getElementById('workshops-container');
+    const grid = document.getElementById('self-development-grid');
+    if (!grid) return;
 
-    if (!certsContainer || !workshopsContainer) return;
+    grid.innerHTML = '';
 
-    certsContainer.innerHTML = '';
-    workshopsContainer.innerHTML = '';
-
-    // Filter into two groups case insensitively
     const certs = activities.filter(act => {
         const roleLower = (act.role || '').toLowerCase();
         return roleLower === 'certifications' || roleLower === 'certification' || roleLower === 'cert';
@@ -191,56 +187,83 @@ function renderSelfDevelopment(activities) {
         return roleLower === 'workshops & events' || roleLower === 'workshop' || roleLower === 'event' || roleLower === 'workshops' || roleLower === 'events';
     });
 
-    // Helper to render items in a column
-    const renderList = (items, container, fallbackText) => {
-        if (items.length === 0) {
-            container.innerHTML = `<p class="text-gray-400 text-sm italic py-2">${fallbackText}</p>`;
-            return;
-        }
+    if (certs.length === 0 && workshops.length === 0) {
+        grid.innerHTML = '<p class="text-gray-400 text-sm italic py-2">ยังไม่มีข้อมูลการพัฒนาตนเอง</p>';
+        return;
+    }
 
-        items.forEach((item, index) => {
-            const card = document.createElement('div');
-            card.className = "glass-card-inner p-4 flex gap-4 items-start transform opacity-0 scale-95 transition-all duration-300 ease-out";
+    function buildCard(item, type) {
+        const card = document.createElement('div');
+        card.className = 'glass-card-inner dev-card p-4 transform opacity-0 scale-95 transition-all duration-300 ease-out';
 
-            let imgHTML = '';
-            if (item.image_url) {
-                imgHTML = `
-                    <div class="relative group cursor-pointer shrink-0" onclick="openImageModal('${item.image_url}')">
-                        <img src="${item.image_url}" alt="${item.title}" class="w-12 h-12 rounded object-cover border border-gray-100 transition-opacity group-hover:opacity-75" />
-                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20 rounded">
-                            <span class="text-white text-xs">🔍</span>
-                        </div>
+        let imgHTML = '';
+        if (item.image_url) {
+            imgHTML = `
+                <div class="relative group cursor-pointer shrink-0" onclick="openImageModal('${item.image_url}')">
+                    <img src="${item.image_url}" alt="${item.title}" class="w-12 h-12 rounded object-cover border border-gray-100 transition-opacity group-hover:opacity-75" />
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20 rounded">
+                        <span class="text-white text-xs">🔍</span>
                     </div>
-                `;
-            } else {
-                // Default icon based on type
-                const isCert = container === certsContainer;
-                imgHTML = `
-                    <div class="w-12 h-12 rounded bg-gray-50 border border-gray-100 flex items-center justify-center text-lg shrink-0 text-gray-400">
-                        ${isCert ? '🏆' : '🎤'}
-                    </div>
-                `;
-            }
-
-            card.innerHTML = `
-                ${imgHTML}
-                <div class="min-w-0">
-                    <h4 class="text-sm font-medium text-gray-900 leading-tight">${item.title}</h4>
-                    <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">${item.description || ''}</p>
                 </div>
             `;
-            container.appendChild(card);
+        } else {
+            imgHTML = `
+                <div class="w-12 h-12 rounded bg-gray-50 border border-gray-100 flex items-center justify-center text-lg shrink-0 text-gray-400">
+                    ${type === 'cert' ? '🏆' : '🎤'}
+                </div>
+            `;
+        }
 
-            // Animate card entrance
-            setTimeout(() => {
+        card.innerHTML = `
+            ${imgHTML}
+            <div class="min-w-0 flex-1">
+                <h4 class="text-sm font-medium text-gray-900 leading-tight">${item.title}</h4>
+                <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">${item.description || ''}</p>
+            </div>
+        `;
+        return card;
+    }
+
+    function buildCell(item, type, label) {
+        const cell = document.createElement('div');
+        cell.className = 'dev-cell';
+
+        if (!item) {
+            cell.innerHTML = '<div class="dev-card dev-card-empty glass-card-inner p-4" aria-hidden="true">&nbsp;</div>';
+            return cell;
+        }
+
+        const labelEl = document.createElement('span');
+        labelEl.className = 'dev-mobile-label';
+        labelEl.textContent = label;
+
+        const card = buildCard(item, type);
+        cell.appendChild(labelEl);
+        cell.appendChild(card);
+        return cell;
+    }
+
+    const rowCount = Math.max(certs.length, workshops.length);
+    const gridWrap = document.createElement('div');
+    gridWrap.className = 'dev-grid';
+
+    for (let i = 0; i < rowCount; i++) {
+        const row = document.createElement('div');
+        row.className = 'dev-row';
+        row.appendChild(buildCell(certs[i], 'cert', '🏆 Certifications'));
+        row.appendChild(buildCell(workshops[i], 'workshop', '🎤 Workshops & Events'));
+        gridWrap.appendChild(row);
+
+        const cards = row.querySelectorAll('.dev-card:not(.dev-card-empty)');
+        setTimeout(() => {
+            cards.forEach((card) => {
                 card.classList.remove('opacity-0', 'scale-95');
                 card.classList.add('opacity-100', 'scale-100');
-            }, index * 50);
-        });
-    };
+            });
+        }, i * 60);
+    }
 
-    renderList(certs, certsContainer, 'ยังไม่มีข้อมูลเกียรติบัตร');
-    renderList(workshops, workshopsContainer, 'ยังไม่มีข้อมูลการอบรมและสัมมนา');
+    grid.appendChild(gridWrap);
 }
 
 // Fetch Work Experiences from Supabase
